@@ -1,0 +1,11 @@
+node_modules/
+.venv/
+.venv_linux/
+dist/
+__pycache__/
+*.pyc
+.DS_Store
+.env
+*.log
+chroma_db/
+temp_docx_extract/

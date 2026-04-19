@@ -1,0 +1,5 @@
+Type of emb: <class 'list'>
+Type of emb[0]: <class 'list'>
+Type of emb[0][0]: <class 'float'>
+Length of emb: 1
+Length of emb[0]: 1024

@@ -1,0 +1,78 @@
+========================================================
+    大闸蟹智慧养殖系统 - 启动与停止指南
+========================================================
+
+一、 核心服务启动流程（必须）
+
+【1. 启动后端服务 (Python / FastAPI)】
+作用：提供所有的数据接口、AI对话、RAG知识库检索、多模态识图等核心业务逻辑。
+操作步骤：
+1. 打开一个新的终端 (Terminal)
+2. 进入 backend 目录：
+   cd backend
+3. 激活虚拟环境并启动服务（使用 Uvicorn）：
+   ..\.venv\Scripts\python.exe -m uvicorn main:app --reload --port 8000
+   （如果是手动激活了虚拟环境，直接运行 `uvicorn main:app --reload --port 8000`）
+启动成功标志：终端显示 "Uvicorn running on http://127.0.0.1:8000"
+
+
+【2. 启动前端服务 (Node.js / Vite / React)】
+作用：提供用户交互的 Web 页面。
+操作步骤：
+1. 打开一个新的终端 (Terminal)
+2. 确保位于项目根目录 `bishe` 下：
+3. 运行开发服务器：
+   npm run dev
+启动成功标志：终端显示 "VITE vX.X.X  ready in XXX ms"，可通过浏览器访问 http://localhost:5173
+
+
+
+二、 模拟传感器后台服务（可选，用于演示动态数据）
+
+如果您需要在演示时让“预警看板”和“生长周期看板”的数据动起来，可以运行以下数据桩脚本。
+
+【1. 水质实时传感器数据模拟】
+作用：每两秒向后端发送一次水质数据（温度、溶氧、pH、氨氮等），并写入数据库。
+操作步骤：
+1. 打开一个新的 PowerShell 终端，并在项目根目录运行以下命令：
+   while($true) { Invoke-WebRequest -Uri "http://127.0.0.1:8000/api/warning/water-quality" | Select-Object Content; Start-Sleep -Seconds 2 }
+
+【2. 生长阶段更新模拟】
+作用：调用后端接口更新大闸蟹所处的生长周期数据。
+操作步骤：
+1. 打开一个新的 PowerShell 终端，并在项目根目录运行以下命令：
+   while($true) { Invoke-WebRequest -Uri "http://127.0.0.1:8000/api/dashboard/stage" | Select-Object Content; Start-Sleep -Seconds 5 }
+
+
+
+三、 知识库构建服务（可选，当更新了 PDF 文件时使用）
+
+作用：当你在 `养殖知识文件` 目录下添加或删除了新的国标 PDF/文档时，需要重新将文字切块并向量化存入 ChromaDB，AI 才能读取到最新知识。
+操作步骤：
+1. 确保后端服务未被占用锁住。
+2. 打开终端，进入 backend 目录：
+   cd backend
+3. 运行构建脚本：
+   ..\.venv\Scripts\python.exe build_knowledge.py
+等待进度条跑完，提示 "✅ 知识库构建完成" 即可。
+
+
+
+四、 如何完全停止系统
+
+正常停止服务，请直接在对应的终端窗口中操作：
+
+1. 停止前端/后端：在各自运行的终端窗口中，按下 `Ctrl + C` 即可终止进程。
+2. 停止模拟服务：在运行 PowerShell `while` 循环的终端窗口中，按下 `Ctrl + C`，或者直接点击关闭终端面板。
+3. 一键强制关闭所有相关进程（如果没有响应）：
+   在新的 PowerShell 终端运行以下命令：
+   Get-Process -Name "node","python" -ErrorAction SilentlyContinue | Stop-Process -Force
+
+========================================================
+系统架构组件清单：
+- 前端：React 18 + Vite + TailwindCSS
+- 后端：FastAPI + Python 3.x
+- 数据库：SQLite (app.db)
+- 向量库：ChromaDB
+- AI 底座：阿里云 DashScope (qwen-plus, qwen-vl-plus, text-embedding-v3)
+========================================================

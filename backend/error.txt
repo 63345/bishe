@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "C:\Users\DaYangYouXia\Desktop\DYXX\bishe\backend\test_chroma.py", line 7, in <module>
+    results = search_similar("水温")
+              ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\DaYangYouXia\Desktop\DYXX\bishe\backend\rag\vectorstore.py", line 169, in search_similar
+    results = collection.query(
+              ^^^^^^^^^^^^^^^^^
+  File "E:\python\Lib\site-packages\chromadb\api\models\Collection.py", line 253, in query
+    query_results = self._client._query(
+                    ^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\Lib\site-packages\chromadb\api\rust.py", line 550, in _query
+    rust_response = self.bindings.query(
+                    ^^^^^^^^^^^^^^^^^^^^
+TypeError: argument 'query_embeddings': 'float' object cannot be converted to 'Sequence'

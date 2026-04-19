@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "C:\Users\DaYangYouXia\Desktop\DYXX\bishe\backend\test_chroma_full.py", line 11, in <module>
+    res = col.query(query_texts=["水温"], n_results=1)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\Lib\site-packages\chromadb\api\models\Collection.py", line 253, in query
+    query_results = self._client._query(
+                    ^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\Lib\site-packages\chromadb\api\rust.py", line 550, in _query
+    rust_response = self.bindings.query(
+                    ^^^^^^^^^^^^^^^^^^^^
+TypeError: argument 'query_embeddings': 'float' object cannot be converted to 'Sequence'
